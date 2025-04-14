@@ -1,8 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // ⬅️ Import here
 import "./EventDetail.css";
-import { FaCalendarAlt, FaClock, FaUsers, FaLanguage, FaMapMarkerAlt, FaCreditCard, FaThumbsUp } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaClock,
+  FaUsers,
+  FaLanguage,
+  FaMapMarkerAlt,
+  FaCreditCard,
+  FaThumbsUp,
+} from "react-icons/fa";
 
 function EventDetail({ event }) {
+  const navigate = useNavigate(); // ⬅️ Initialize navigate
+
   if (!event) return null;
 
   return (
@@ -24,7 +35,8 @@ function EventDetail({ event }) {
             <p>~ {event.date}</p>
             <p>~ Join us for a deep dive into {event.category} related topics.</p>
             <div className="interested">
-              <FaThumbsUp /> 60 Are Interested <button className="btn-interest">I'm Interested</button>
+              <FaThumbsUp /> 60 Are Interested{" "}
+              <button className="btn-interest">I'm Interested</button>
             </div>
           </div>
         </div>
@@ -39,9 +51,9 @@ function EventDetail({ event }) {
           <p><FaMapMarkerAlt /> Location: Virtual</p>
           <hr />
           <div className="price-section">
-            {/* <h4>₹1000</h4> */}
-            <strong>Available : Join Fast</strong><br></br>
+            <strong>Available : Join Fast</strong><br />
             <button className="btn-book">JOIN</button>
+            <button onClick={() => navigate('/zoom')}>JOIN ZOOM</button>
           </div>
         </div>
       </div>

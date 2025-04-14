@@ -15,6 +15,7 @@ import MyEvents from './pages/MyEvents';
 import CreateEvent from './pages/CreateEvent';
 import AdminDashboard from './pages/AdminDashboard';
 import AllEvents from './pages/AllEvents';
+import ZoomMeeting from './pages/zoom_meeting';
 
 import './App.css';
 
@@ -39,6 +40,8 @@ function App() {
             <Route path="/myevents" element={<MyEvents />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/events" element={<AllEvents />} />
+            <Route path="/zoom" element={<ZoomMeeting />} />
+            
           </Routes>
         </div>
       </div>
