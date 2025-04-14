@@ -1,3 +1,107 @@
+/* Admin-Dashboard */
+
+.admin-table-container {
+  /* background: #f3e8ff; */
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.event-table th,
+.event-table td {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.event-table thead {
+  background-color: #d9b8ff;
+}
+
+.event-table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.event-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.delivered {
+  background-color: #e6fff1;
+  color: #0f9d58;
+}
+
+.status-badge.process {
+  background-color: #fff4e5;
+  color: #ff9900;
+}
+
+.status-badge.canceled {
+  background-color: #ffe5e5;
+  color: #d93025;
+}
+
+.action-icon {
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.action-icon.edit {
+  color: #6a1b9a;
+}
+
+.action-icon.delete {
+  color: #e53935;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.page {
+  margin: 0 4px;
+  padding: 6px 10px;
+  background: #e0d1f7;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.page.active {
+  background: #7e57c2;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Common styles for all pages */
 .page-container {
     max-width: 1300px;

@@ -1,22 +1,3 @@
-// import React from 'react';
-// // import LandingPage from './components/LandingPage'; // Corrected the path
-// import CreateEvent from './components/CreateEvent';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <h1 className="header">Create Event</h1>
-//       <CreateEvent />
-//       {/* <LandingPage /> */}
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -31,6 +12,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import MyEvents from './pages/MyEvents';
 import CreateEvent from './pages/CreateEvent';
+import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
 function App() {
@@ -41,6 +23,7 @@ function App() {
         <div className="content">
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/webinars" element={<Webinars />} />
             <Route path="/conferences" element={<Conferences />} />
             <Route path="/meetups" element={<Meetups />} />
