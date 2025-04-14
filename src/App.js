@@ -1,0 +1,47 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Webinars from './pages/Webinars';
+import Conferences from './pages/Conferences';
+import Meetups from './pages/Meetups';
+import ListYourEvent from './pages/ListYourEvent';
+import Offers from './pages/Offers';
+import GiftCards from './pages/GiftCards';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import MyEvents from './pages/MyEvents';
+import CreateEvent from './pages/CreateEvent';
+import AdminDashboard from './pages/AdminDashboard';
+import EventTypePage from './pages/EventTypePage';
+import './App.css';
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Header />
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<CreateEvent />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/webinars" element={<Webinars />} />
+            <Route path="/webinar" element={<EventTypePage />} />
+            <Route path="/conferences" element={<Conferences />} />
+            <Route path="/conference" element={<EventTypePage />} />
+            <Route path="/meetups" element={<Meetups />} />
+            <Route path="/meetup" element={<EventTypePage />} />
+            <Route path="/listyourevent" element={<ListYourEvent />} />
+            <Route path="/offers" element={<Offers />} />
+            <Route path="/giftcards" element={<GiftCards />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/myevents" element={<MyEvents />} />
+            <Route path="/create-event" element={<CreateEvent />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
