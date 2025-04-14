@@ -20,11 +20,13 @@
   
   .event-banner {
     width: 100%;
+    height: 300px;
     border-radius: 16px;
   }
   
   .event-about {
     margin-top: 20px;
+    text-align: left;
   }
   
   .event-about h3 {
