@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+
 import Home from './pages/Home';
 import Webinars from './pages/Webinars';
 import Conferences from './pages/Conferences';
@@ -13,6 +14,8 @@ import Login from './pages/Login';
 import MyEvents from './pages/MyEvents';
 import CreateEvent from './pages/CreateEvent';
 import AdminDashboard from './pages/AdminDashboard';
+import AllEvents from './pages/AllEvents';
+
 import './App.css';
 
 function App() {
@@ -22,7 +25,9 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/webinars" element={<Webinars />} />
             <Route path="/conferences" element={<Conferences />} />
@@ -31,9 +36,9 @@ function App() {
             <Route path="/offers" element={<Offers />} />
             <Route path="/giftcards" element={<GiftCards />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/myevents" element={<MyEvents />} />
             <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/events" element={<AllEvents />} />
           </Routes>
         </div>
       </div>

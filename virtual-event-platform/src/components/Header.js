@@ -72,7 +72,7 @@ function Header() {
       <nav className="main-nav">
         <div className="nav-container">
           <ul className="primary-nav">
-            <li><Link to="/">HOME</Link></li>
+            <li><Link to="/home">HOME</Link></li>
             <li><Link to="/webinars">WEBINARS</Link></li>
             <li><Link to="/conferences">CONFERENCES</Link></li>
             <li><Link to="/meetups">MEETUPS</Link></li>

@@ -40,9 +40,14 @@ function Login() {
       if (response.ok) {
         alert('Login successful!');
         console.log('Logged in user:', data.user);
-        navigate('/'); // 👈 Redirect to Home
-      }
-       else {
+  
+        // Assuming the user object contains a "username" field
+        if (data.user.email === 'admin@123.aiml') {
+          navigate('/admin');
+        } else {
+          navigate('/home');
+        }
+      } else {
         alert(`Login failed: ${data.error}`);
       }
     } catch (error) {
@@ -50,6 +55,8 @@ function Login() {
       alert('Something went wrong. Please try again.');
     }
   };
+  
+  
   
   
   return (
