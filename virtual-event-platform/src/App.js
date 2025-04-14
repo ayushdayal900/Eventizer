@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-// import Home from './pages/Home';
+import Home from './pages/Home';
 import Webinars from './pages/Webinars';
 import Conferences from './pages/Conferences';
 import Meetups from './pages/Meetups';
@@ -22,7 +22,7 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<Home />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/webinars" element={<Webinars />} />
             <Route path="/conferences" element={<Conferences />} />

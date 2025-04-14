@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './PagesStyles.css';
+
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -8,6 +10,9 @@ function Login() {
     password: '',
     rememberMe: false
   });
+
+  const navigate = useNavigate();
+
   
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -17,13 +22,35 @@ function Login() {
     }));
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Login logic would go here
-    console.log("Login form submitted:", formData);
-    alert("Login successful!");
+  
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert('Login successful!');
+        console.log('Logged in user:', data.user);
+        navigate('/'); // 👈 Redirect to Home
+      }
+       else {
+        alert(`Login failed: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
+  
   
   return (
     <div className="page-container">

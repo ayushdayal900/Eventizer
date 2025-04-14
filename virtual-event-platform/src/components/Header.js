@@ -46,7 +46,7 @@ function Header() {
             className="auth-button" 
             onClick={() => navigate('/signup')}
           >
-            Signup
+            User
           </button>
           <button 
             className="auth-button" 
