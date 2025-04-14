@@ -20,17 +20,43 @@ function Signup() {
     }));
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match!");
       return;
     }
-    
-    // Registration logic would go here
-    console.log("Form submitted:", formData);
-    alert("Account created successfully! Please check your email to verify your account.");
+  
+    try {
+      const response = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        alert("Account created successfully!");
+        setFormData({
+          fullName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          phoneNumber: '',
+          agreeTerms: false
+        });
+      } else {
+        const err = await response.json();
+        alert(`Signup failed: ${err.error}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Something went wrong. Try again later.");
+    }
   };
+  
+  
   
   return (
     <div className="page-container">

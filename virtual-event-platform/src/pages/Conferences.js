@@ -2,66 +2,71 @@ import React, { useState, useEffect } from 'react';
 import './PagesStyles.css';
 import EventDetail from './EventDetail';
 
-function Webinars() {
-  const [webinars, setWebinars] = useState([]);
+function Conferences() {
+  const [conferences, setConferences] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [registeredIds, setRegisteredIds] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [registeredEvents, setRegisteredEvents] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
-      setWebinars([
+      setConferences([
         {
           id: 1,
-          title: "Modern Web Development",
-          date: "May 15, 2025",
-          time: "10:00 AM - 12:00 PM",
-          organizer: "Tech Solutions Inc.",
+          title: "Annual Tech Summit 2025",
+          date: "June 10-12, 2025",
+          location: "Hyderabad International Convention Center",
+          organizer: "TechLeaders Association",
           category: "Technology",
-          image: "https://img.freepik.com/free-vector/advertising-agency-webinar-template_23-2150034479.jpg"
+          image: "https://img.freepik.com/free-vector/technology-conference-bannertemplate_1361-2226.jpg"
         },
         {
           id: 2,
-          title: "Data Science for Beginners",
-          date: "May 20, 2025",
-          time: "2:00 PM - 4:00 PM",
-          organizer: "DataMinds Academy",
-          category: "Education",
-          image: "https://img.freepik.com/free-vector/data-analysis-template-design_23-2150713832.jpg"
+          title: "Healthcare Innovation Conference",
+          date: "June 18-20, 2025",
+          location: "Taj Conference Center, Mumbai",
+          organizer: "Health Innovations India",
+          category: "Healthcare",
+          image: "https://img.freepik.com/free-psd/gradient-medical-care-facebook-template_23-2150514853.jpg"
         },
         {
           id: 3,
-          title: "Digital Marketing Strategies",
-          date: "May 25, 2025",
-          time: "11:00 AM - 1:00 PM",
-          organizer: "Marketing Pro",
-          category: "Business",
-          image: "https://img.freepik.com/free-vector/webinar-banner-invitation_52683-50986.jpg"
+          title: "Financial Markets Summit",
+          date: "July 5-7, 2025",
+          location: "The Grand Ballroom, New Delhi, India",
+          organizer: "Financial Today Group",
+          category: "Finance",
+          image: "https://img.freepik.com/free-vector/financial-business-world-successful-management-concept_1284-5601.jpg"
         },
         {
           id: 4,
-          title: "Language Learnings",
-          date: "May 27, 2025",
-          time: "11:00 AM - 1:00 PM",
-          organizer: "Languages Pro",
-          category: "Education",
-          image: "https://img.freepik.com/free-psd/flat-design-language-learning-facebook-template_23-2150550297.jpg"
+          title: "Future Economics Conference",
+          date: "July 5-7, 2025",
+          location: "The Grand Ballroom, New Delhi, India",
+          organizer: "Financial Today Group",
+          category: "Finance",
+          image: "https://img.freepik.com/premium-psd/elegant-black-gold-theme-digital-marketing-live-webinar-social-media-post-template_236275-328.jpg"
         }
       ]);
       setLoading(false);
     }, 800);
   }, []);
 
-  const handleRegisterClick = (id) => {
-    setRegisteredIds(prev => [...prev, id]);
+  const handleRegister = (id) => {
+    if (!registeredEvents.includes(id)) {
+      setRegisteredEvents(prev => [...prev, id]);
+    }
   };
 
-  const isRegistered = (id) => registeredIds.includes(id);
+  const handleImageClick = (conference) => {
+    if (registeredEvents.includes(conference.id)) {
+      setSelectedEvent(conference);
+    }
+  };
 
   if (selectedEvent) {
     return (
       <div className="page-container">
-        <button className="back-button" onClick={() => setSelectedEvent(null)}>← Back to Webinars</button>
         <EventDetail event={selectedEvent} />
       </div>
     );
@@ -70,42 +75,41 @@ function Webinars() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>Webinars</h1>
-        <p>Find and join online webinars on various topics</p>
-      </div>
-
-      <div className="filters">
-        {/* Filters here (unchanged) */}
+        <h1>Conferences</h1>
+        <p>Discover upcoming conferences and industry events</p>
       </div>
 
       <div className="events-grid">
         {loading ? (
-          <div className="loading">Loading webinars...</div>
+          <div className="loading">Loading conferences...</div>
         ) : (
-          webinars.map(webinar => (
-            <div className="event-card" key={webinar.id}>
+          conferences.map(conference => (
+            <div className="event-card" key={conference.id}>
               <div className="event-image">
                 <img
-                  src={webinar.image}
-                  alt={webinar.title}
-                  onClick={() => {
-                    if (isRegistered(webinar.id)) setSelectedEvent(webinar);
-                  }}
-                  style={{ cursor: isRegistered(webinar.id) ? 'pointer' : 'default' }}
+                  src={conference.image}
+                  alt={conference.title}
+                  onClick={() => handleImageClick(conference)}
+                  style={{ cursor: registeredEvents.includes(conference.id) ? 'pointer' : 'default' }}
                 />
               </div>
               <div className="event-details">
-                <h3>{webinar.title}</h3>
+                <h3>{conference.title}</h3>
                 <div className="event-info">
-                  <p><span>Date:</span> {webinar.date}</p>
-                  <p><span>Time:</span> {webinar.time}</p>
-                  <p><span>Organizer:</span> {webinar.organizer}</p>
-                  <p><span>Category:</span> {webinar.category}</p>
+                  <p><span>Date:</span> {conference.date}</p>
+                  <p><span>Location:</span> {conference.location}</p>
+                  <p><span>Organizer:</span> {conference.organizer}</p>
+                  <p><span>Category:</span> {conference.category}</p>
                 </div>
-                {isRegistered(webinar.id) ? (
-                  <button className="register-button done">done</button>
+                {registeredEvents.includes(conference.id) ? (
+                  <div className="register-button done">Done</div>
                 ) : (
-                  <button className="register-button" onClick={() => handleRegisterClick(webinar.id)}>Register Now</button>
+                  <button
+                    className="register-button"
+                    onClick={() => handleRegister(conference.id)}
+                  >
+                    Register Now
+                  </button>
                 )}
               </div>
             </div>
@@ -116,4 +120,4 @@ function Webinars() {
   );
 }
 
-export default Webinars;
+export default Conferences;

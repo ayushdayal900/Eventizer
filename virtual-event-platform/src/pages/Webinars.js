@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './PagesStyles.css';
+import EventDetail from './EventDetail';
 
 function Webinars() {
   const [webinars, setWebinars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [registeredWebinars, setRegisteredWebinars] = useState({});
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,6 +59,20 @@ function Webinars() {
     }));
   };
 
+  const handleImageClick = (webinar) => {
+    if (registeredWebinars[webinar.id]) {
+      setSelectedEvent(webinar);
+    }
+  };
+
+  if (selectedEvent) {
+    return (
+      <div className="page-container">
+        <EventDetail event={selectedEvent} />
+      </div>
+    );
+  }
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -65,29 +81,7 @@ function Webinars() {
       </div>
 
       <div className="filters">
-        <select className="filter-select">
-          <option>All Categories</option>
-          <option>Technology</option>
-          <option>Business</option>
-          <option>Education</option>
-          <option>Health</option>
-        </select>
-
-        <select className="filter-select">
-          <option>All Dates</option>
-          <option>Today</option>
-          <option>Tomorrow</option>
-          <option>This Weekend</option>
-          <option>This Month</option>
-        </select>
-
-        <select className="filter-select">
-          <option>Price - Any</option>
-          <option>Free</option>
-          <option>Paid</option>
-        </select>
-
-        <button className="filter-button">Apply Filters</button>
+        {/* Add your filters here if needed */}
       </div>
 
       <div className="events-grid">
@@ -97,7 +91,12 @@ function Webinars() {
           webinars.map(webinar => (
             <div className="event-card" key={webinar.id}>
               <div className="event-image">
-                <img src={webinar.image} alt={webinar.title} />
+                <img
+                  src={webinar.image}
+                  alt={webinar.title}
+                  onClick={() => handleImageClick(webinar)}
+                  style={{ cursor: registeredWebinars[webinar.id] ? 'pointer' : 'default' }}
+                />
               </div>
               <div className="event-details">
                 <h3>{webinar.title}</h3>

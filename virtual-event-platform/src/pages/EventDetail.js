@@ -39,9 +39,9 @@ function EventDetail({ event }) {
           <p><FaMapMarkerAlt /> Location: Virtual</p>
           <hr />
           <div className="price-section">
-            <h4>₹1000</h4>
-            <p>Available</p>
-            <button className="btn-book">+ BOOK</button>
+            {/* <h4>₹1000</h4> */}
+            <strong>Available : Join Fast</strong><br></br>
+            <button className="btn-book">JOIN</button>
           </div>
         </div>
       </div>

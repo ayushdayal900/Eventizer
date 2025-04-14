@@ -52,12 +52,12 @@ function Header() {
             className="auth-button" 
             onClick={() => navigate('/login')}
           >
-            Login
+            {/* Login
           </button>
           <button 
             className="auth-button" 
             onClick={() => navigate('/myevents')}
-          >
+          > */}
             My Events
           </button>
         </div>
