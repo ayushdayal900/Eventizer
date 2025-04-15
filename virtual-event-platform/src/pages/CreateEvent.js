@@ -1,136 +1,151 @@
 import React, { useState } from 'react';
-import './CreateEvent.css';
 import { useNavigate } from 'react-router-dom';
-
+import './CreateEvent.css';
 
 function CreateEvent() {
   const [activeStep, setActiveStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState('');
-  const navigate = useNavigate();
-
-
-  const [eventData, setEventData] = useState({
+  const [eventMode, setEventMode] = useState('');
+  const [formData, setFormData] = useState({
     eventName: '',
     description: '',
-    type: '',
-    mode: '',
+    eventType: '',
+    eventMode: '',
     category: '',
     startDate: '',
     endDate: '',
     language: '',
-    poster: null,
-    organizerName: '',
-    organizerEmail: '',
-    contactNumber: '',
-    ticketType: '',
-    attendeeLimit: '',
-    registrationDeadline: '',
     venueName: '',
     venueAddress: '',
-    googleMapLink: '',
     paymentMethod: '',
-    beneficiaryName: '',
-    accountNumber: '',
-    bankName: '',
-    ifsc: '',
-    upiId: '',
-    paypalEmail: ''
+    organizerName: '',
   });
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    setEventData((prev) => ({
-      ...prev,
-      [name]: type === 'file' ? files[0] : value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    for (const key in eventData) {
-      formData.append(key, eventData[key]);
-    }
-
-    try {
-      const response = await fetch('http://localhost:5000/api/events', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        alert('Event submitted successfully!');
-        navigate('/events');
-      } else {
-        alert('Submission failed: ' + result.error);
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('An error occurred.');
-    }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const renderEventSection = () => (
     <div className="form-section">
       <fieldset className="full-width">
         <legend>Event Information</legend>
-        <input type="text" name="eventName" placeholder="Event Name" value={eventData.eventName} onChange={handleChange} />
-        <textarea name="description" placeholder="Description" value={eventData.description} onChange={handleChange}></textarea>
-
-        <select name="type" value={eventData.type} onChange={handleChange}>
-          <option>Type</option>
-          <option>Webinar</option>
-          <option>Conference</option>
-          <option>Meetup</option>
+        <label>Name of Event</label>
+        <input
+          type="text"
+          placeholder="Enter your event name"
+          name="eventName"
+          value={formData.eventName}
+          onChange={handleInputChange}
+        />
+        <label>Description</label>
+        <textarea
+          placeholder="Description"
+          name="description"
+          value={formData.description}
+          onChange={handleInputChange}
+        ></textarea>
+        <label>Event Type</label>
+        <select
+          name="eventType"
+          value={formData.eventType}
+          onChange={handleInputChange}
+        >
+          <option value="">Type</option>
+          <option value="Webinar">Webinar</option>
+          <option value="Conference">Conference</option>
+          <option value="Meetup">Meetup</option>
+        </select>
+        <label>Event Mode</label>
+        <select
+          name="eventMode"
+          value={formData.eventMode}
+          onChange={(e) => {
+            handleInputChange(e);
+            setEventMode(e.target.value);
+          }}
+        >
+          <option value="">Mode</option>
+          <option value="Online">Online</option>
+          <option value="Offline">Offline</option>
+        </select>
+        <label>Category</label>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleInputChange}
+        >
+          <option value="">Category</option>
+          <option value="Technology">Technology</option>
+          <option value="Education">Education</option>
+          <option value="Health">Health</option>
+          <option value="Business">Business</option>
+        </select>
+        <label>Start Date & Time</label>
+        <input
+          type="datetime-local"
+          name="startDate"
+          value={formData.startDate}
+          onChange={handleInputChange}
+        />
+        <label>End Date & Time</label>
+        <input
+          type="datetime-local"
+          name="endDate"
+          value={formData.endDate}
+          onChange={handleInputChange}
+        />
+        <label>Language</label>
+        <select
+          name="language"
+          value={formData.language}
+          onChange={handleInputChange}
+        >
+          <option value="">Language</option>
+          <option value="English">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Marathi">Marathi</option>
         </select>
 
-        <select name="mode" value={eventData.mode} onChange={handleChange}>
-          <option>Mode</option>
-          <option>Online</option>
-          <option>Offline</option>
-        </select>
-
-        <select name="category" value={eventData.category} onChange={handleChange}>
-          <option>Category</option>
-          <option>Technology</option>
-          <option>Education</option>
-          <option>Health</option>
-          <option>Business</option>
-        </select>
-
-        <input type="datetime-local" name="startDate" value={eventData.startDate} onChange={handleChange} />
-        <input type="datetime-local" name="endDate" value={eventData.endDate} onChange={handleChange} />
-
-        <select name="language" value={eventData.language} onChange={handleChange}>
-          <option>Language</option>
-          <option>English</option>
-          <option>Hindi</option>
-          <option>Marathi</option>
-        </select>
-
-        <input type="file" name="poster" onChange={handleChange} />
+        <label>Upload Event Poster</label>
+        <input type="file" />
       </fieldset>
 
       <div className="double-row">
         <fieldset>
           <legend>Organisation Details</legend>
-          <input type="text" name="organizerName" placeholder="Organizer Name" value={eventData.organizerName} onChange={handleChange} />
-          <input type="email" name="organizerEmail" placeholder="Organizer Email" value={eventData.organizerEmail} onChange={handleChange} />
-          <input type="tel" name="contactNumber" placeholder="Contact Number" value={eventData.contactNumber} onChange={handleChange} />
+          <label>Organizer/Company Name</label>
+          <input
+            type="text"
+            placeholder="Enter Name"
+            name="organizerName"
+            value={formData.organizerName}
+            onChange={handleInputChange}
+          />
+
+          <label>Organizer/Company Email</label>
+          <input type="email" placeholder="Enter Email" name="organizerEmail" />
+
+          <label>Contact Number</label>
+          <input type="tel" placeholder="Contact Number" name="contactNumber" />
         </fieldset>
 
         <fieldset>
           <legend>Ticketing & Registration</legend>
-          <select name="ticketType" value={eventData.ticketType} onChange={handleChange}>
+          <label>Ticket Type</label>
+          <select name="ticketType">
             <option>Type</option>
             <option>Free</option>
             <option>Paid</option>
             <option>Donation</option>
           </select>
-          <input type="number" name="attendeeLimit" placeholder="Attendee Limit" value={eventData.attendeeLimit} onChange={handleChange} />
-          <input type="date" name="registrationDeadline" value={eventData.registrationDeadline} onChange={handleChange} />
+
+          <label>Attendee Limit</label>
+          <input type="number" placeholder="Enter Number" name="attendeeLimit" />
+
+          <label>Last Date of Registration</label>
+          <input type="date" name="registrationDeadline" />
         </fieldset>
       </div>
     </div>
@@ -138,11 +153,24 @@ function CreateEvent() {
 
   const renderVenueSection = () => (
     <div className="form-section">
-      <fieldset>
-        <legend>Venue (Offline Only)</legend>
-        <input type="text" name="venueName" placeholder="Venue Name" value={eventData.venueName} onChange={handleChange} />
-        <input type="text" name="venueAddress" placeholder="Full Address" value={eventData.venueAddress} onChange={handleChange} />
-        <input type="text" name="googleMapLink" placeholder="Google Map Link" value={eventData.googleMapLink} onChange={handleChange} />
+      <fieldset disabled={eventMode !== 'Offline'}>
+        <legend>Venue (Offline Event Only)</legend>
+        <label>Venue Name</label>
+        <input
+          type="text"
+          placeholder="Enter location or venue name"
+          name="venueName"
+          value={formData.venueName}
+          onChange={handleInputChange}
+        />
+        <label>Full Address</label>
+        <input
+          type="text"
+          placeholder="Street, City, State, PIN"
+          name="venueAddress"
+          value={formData.venueAddress}
+          onChange={handleInputChange}
+        />
       </fieldset>
     </div>
   );
@@ -151,48 +179,129 @@ function CreateEvent() {
     <div className="form-section">
       <fieldset>
         <legend>Payment</legend>
-        <select name="paymentMethod" value={eventData.paymentMethod} onChange={(e) => {
-          setPaymentMethod(e.target.value);
-          handleChange(e);
-        }}>
+        <label>Payment Method</label>
+        <select
+          name="paymentMethod"
+          value={formData.paymentMethod}
+          onChange={(e) => {
+            handleInputChange(e);
+            setPaymentMethod(e.target.value);
+          }}
+        >
           <option value="">Select Payment Method</option>
           <option value="bank">Bank Transfer</option>
           <option value="upi">UPI</option>
           <option value="paypal">PayPal</option>
         </select>
-
         {paymentMethod === 'bank' && (
           <>
-            <input type="text" name="beneficiaryName" placeholder="Beneficiary Name" value={eventData.beneficiaryName} onChange={handleChange} />
-            <input type="text" name="accountNumber" placeholder="Account Number" value={eventData.accountNumber} onChange={handleChange} />
-            <select name="bankName" value={eventData.bankName} onChange={handleChange}>
-              <option>Select bank</option>
+            <label>Beneficiary Name</label>
+            <input type="text" placeholder="Enter Beneficiary name" />
+            <label>Account Number</label>
+            <input type="text" placeholder="Enter account number" />
+            <label>Bank Name</label>
+            <select>
+              <option>Select bank name</option>
               <option>State Bank of India</option>
               <option>HDFC Bank</option>
               <option>ICICI Bank</option>
               <option>Axis Bank</option>
             </select>
-            <input type="text" name="ifsc" placeholder="IFSC Code" value={eventData.ifsc} onChange={handleChange} />
+            <label>IFSC Code</label>
+            <input type="text" placeholder="Enter Bank IFSC" />
           </>
         )}
-
         {paymentMethod === 'upi' && (
-          <input type="text" name="upiId" placeholder="example@bank" value={eventData.upiId} onChange={handleChange} />
+          <>
+            <label>UPI ID</label>
+            <input type="text" placeholder="example@bank" />
+          </>
         )}
-
         {paymentMethod === 'paypal' && (
-          <input type="email" name="paypalEmail" placeholder="PayPal Email" value={eventData.paypalEmail} onChange={handleChange} />
+          <>
+            <label>PayPal Email</label>
+            <input type="email" placeholder="example@paypal.com" />
+          </>
         )}
       </fieldset>
     </div>
   );
 
+  const handleNext = () => {
+    setActiveStep((prev) => Math.min(prev + 1, 3));
+  };
+
+  const handlePrevious = () => {
+    setActiveStep((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const requiredFields = ['eventName', 'eventType', 'eventMode', 'startDate', 'endDate'];
+    for (const field of requiredFields) {
+      if (!formData[field]) {
+        alert(`Please fill in the ${field} field.`);
+        return;
+      }
+    }
+
+    if (eventMode === 'Offline' && (!formData.venueName || !formData.venueAddress)) {
+      alert('Please fill in the venue details for offline events.');
+      return;
+    }
+
+    const posterInput = document.querySelector('input[type="file"]');
+    const poster = posterInput?.files[0] ? URL.createObjectURL(posterInput.files[0]) : '';
+
+    const newEvent = {
+      ...formData,
+      createdByUser: true,
+      startDate: new Date(formData.startDate).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      }),
+      endDate: new Date(formData.endDate).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      }),
+      startTime: new Date(formData.startDate).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      }),
+      endTime: new Date(formData.endDate).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      }),
+      location: eventMode === 'Online' ? 'Online' : formData.venueName || 'N/A',
+      organizer: formData.organizerName || 'N/A',
+      poster,
+    };
+
+    const existingEvents = JSON.parse(localStorage.getItem(formData.eventType)) || [];
+    localStorage.setItem(formData.eventType, JSON.stringify([...existingEvents, newEvent]));
+
+    alert('Event submitted successfully!');
+    setActiveStep(1);
+    navigate(`/${formData.eventType.toLowerCase()}`);
+  };
+
   return (
     <div className="app-container">
       <div className="steps">
-        <div className={`step ${activeStep === 1 ? 'active' : ''}`} onClick={() => setActiveStep(1)}>1. Event Info</div>
-        <div className={`step ${activeStep === 2 ? 'active' : ''}`} onClick={() => setActiveStep(2)}>2. Venue</div>
-        <div className={`step ${activeStep === 3 ? 'active' : ''}`} onClick={() => setActiveStep(3)}>3. Payment</div>
+        <div className={`step ${activeStep === 1 ? 'active' : ''}`} onClick={() => setActiveStep(1)}>
+          1. Event Information
+        </div>
+        <div className={`step ${activeStep === 2 ? 'active' : ''}`} onClick={() => setActiveStep(2)}>
+          2. Venue
+        </div>
+        <div className={`step ${activeStep === 3 ? 'active' : ''}`} onClick={() => setActiveStep(3)}>
+          3. Payment
+        </div>
       </div>
 
       <form className="event-form" onSubmit={handleSubmit}>
@@ -201,9 +310,21 @@ function CreateEvent() {
         {activeStep === 3 && renderPaymentSection()}
 
         <div className="navigation-buttons">
-          {activeStep > 1 && <button type="button" onClick={() => setActiveStep(activeStep - 1)}>Previous</button>}
-          {activeStep < 3 && <button type="button" onClick={() => setActiveStep(activeStep + 1)}>Next</button>}
-          {activeStep === 3 && <button type="submit">Submit</button>}
+          {activeStep > 1 && (
+            <button type="button" className="form-button" onClick={handlePrevious}>
+              Previous
+            </button>
+          )}
+          {activeStep < 3 && (
+            <button type="button" className="form-button" onClick={handleNext}>
+              Next
+            </button>
+          )}
+          {activeStep === 3 && (
+            <button type="submit" className="form-button">
+              Submit Event
+            </button>
+          )}
         </div>
       </form>
     </div>

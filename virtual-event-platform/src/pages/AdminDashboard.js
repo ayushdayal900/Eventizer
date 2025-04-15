@@ -42,6 +42,17 @@ const statusColor = {
 };
 
 const AdminEventTable = () => {
+  const runWebhookScript = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/run-webhook");
+      const message = await res.text();
+      alert(message);
+    } catch (err) {
+      console.error("Failed to run webhook:", err);
+      alert("Something went wrong!");
+    }
+  };
+
   return (
     <div className="admin-table-container">
       <h2>Manage Events</h2>
@@ -90,6 +101,11 @@ const AdminEventTable = () => {
         <span className="page">2</span>
         <span className="page">3</span>
       </div>
+
+      {/* Send Notifications Button */}
+      <button onClick={runWebhookScript} className="send-btn">
+        Send Notifications
+      </button>
     </div>
   );
 };
