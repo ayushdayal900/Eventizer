@@ -286,12 +286,12 @@ function CreateEvent() {
 
         <div className="navigation-buttons">
           {activeStep > 1 && (
-            <button type="button" onClick={handlePrevious}>
+            <button className='height' type="button" onClick={handlePrevious}>
               Previous
             </button>
           )}
           {activeStep < 3 && (
-            <button type="button" onClick={handleNext}>
+            <button className='height' type="button" onClick={handleNext}>
               Next
             </button>
           )}
