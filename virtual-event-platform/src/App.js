@@ -15,7 +15,8 @@ import MyEvents from './pages/MyEvents';
 import CreateEvent from './pages/CreateEvent';
 import AdminDashboard from './pages/AdminDashboard';
 import AllEvents from './pages/AllEvents';
-import ZoomMeeting from './pages/zoom_meeting';
+// import ZoomMeeting from './pages/ZoomMeeting';
+// import EventDetail from './pages/EventDetail';
 
 import './App.css';
 
@@ -40,8 +41,7 @@ function App() {
             <Route path="/myevents" element={<MyEvents />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/events" element={<AllEvents />} />
-            <Route path="/zoom" element={<ZoomMeeting />} />
-            
+            {/* <Route path="/zoom" element={<ZoomMeeting />} /> ✅ Zoom route added */}
           </Routes>
         </div>
       </div>

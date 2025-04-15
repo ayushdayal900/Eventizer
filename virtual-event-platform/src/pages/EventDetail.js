@@ -1,6 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // ⬅️ Import here
-import "./EventDetail.css";
+import { useNavigate } from "react-router-dom";
 import {
   FaCalendarAlt,
   FaClock,
@@ -10,9 +9,10 @@ import {
   FaCreditCard,
   FaThumbsUp,
 } from "react-icons/fa";
+import './EventDetail.css';
 
 function EventDetail({ event }) {
-  const navigate = useNavigate(); // ⬅️ Initialize navigate
+  const navigate = useNavigate();
 
   if (!event) return null;
 
@@ -21,14 +21,8 @@ function EventDetail({ event }) {
       <h2 className="event-title">{event.title}</h2>
 
       <div className="event-main">
-        {/* Left Section */}
         <div className="event-left">
-          <img
-            src={event.image}
-            alt={event.title}
-            className="event-banner"
-          />
-
+          <img src={event.image} alt={event.title} className="event-banner" />
           <div className="event-about">
             <h3>About The Event</h3>
             <p>~ {event.organizer}</p>
@@ -41,7 +35,6 @@ function EventDetail({ event }) {
           </div>
         </div>
 
-        {/* Right Section */}
         <div className="event-info-card">
           <p><FaCalendarAlt /> {event.date}</p>
           <p><FaClock /> {event.time}</p>
@@ -53,7 +46,20 @@ function EventDetail({ event }) {
           <div className="price-section">
             <strong>Available : Join Fast</strong><br />
             <button className="btn-book">JOIN</button>
-            <button onClick={() => navigate('/zoom')}>JOIN ZOOM</button>
+            <button
+              onClick={() =>
+                navigate('/zoom', {
+                  state: {
+                    meetingNumber: event.meetingNumber,
+                    userName: 'John Doe',
+                    userEmail: 'john@example.com',
+                    password: event.password,
+                  },
+                })
+              }
+            >
+              JOIN ZOOM
+            </button>
           </div>
         </div>
       </div>
