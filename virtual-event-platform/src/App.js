@@ -11,7 +11,9 @@ import Offers from './pages/Offers';
 import GiftCards from './pages/GiftCards';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+
 import MyEvents from './pages/MyEvents';
+
 import CreateEvent from './pages/CreateEvent';
 import AdminDashboard from './pages/AdminDashboard';
 import AllEvents from './pages/AllEvents';

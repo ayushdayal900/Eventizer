@@ -50,7 +50,7 @@ function Header() {
           </button>
           <button 
             className="auth-button" 
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/myevents')}
           >
             {/* Login
           </button>
