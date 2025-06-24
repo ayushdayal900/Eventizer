@@ -3,5 +3,6 @@ build/
 .env
 .DS_Store
 npm-debug.log*
-public/video/
-public/images/
+virtual-event-platform/public/videos/
+virtual-event-platform/public/images/
+
