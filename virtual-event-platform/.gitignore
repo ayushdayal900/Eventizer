@@ -3,3 +3,5 @@ build/
 .env
 .DS_Store
 npm-debug.log*
+public/video/
+public/images/
