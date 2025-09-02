@@ -1,0 +1,23 @@
+{
+  "name": "eventizer",
+  "version": "1.0.0",
+  "description": "***\r - **Step 1**: Go to virtual-event-platform directory ($ cd virtual-event-platform/)\r - **Step 2**: Install all dependencies ($npm install)\r - **Step 3**: Run the application. ($npm start)",
+  "homepage": "https://github.com/ayushdayal900/Eventizer#readme",
+  "bugs": {
+    "url": "https://github.com/ayushdayal900/Eventizer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayushdayal900/Eventizer.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
+}

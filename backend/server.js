@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
@@ -23,7 +24,7 @@ mongoose.connect('mongodb://localhost:27017/userSignupDB', {
   useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB Connected'))
-.catch(err => console.error(' MongoDB connection error:', err));
+.catch(err => console.error('MongoDB connection error:', err));
 
 // ===== USER SCHEMA =====
 const UserSchema = new mongoose.Schema({
@@ -54,6 +55,7 @@ const EventSchema = new mongoose.Schema({
   registrationDeadline: String,
   venueName: String,
   venueAddress: String,
+  city: String,  
   googleMapLink: String,
   paymentMethod: String,
   beneficiaryName: String,
@@ -65,10 +67,7 @@ const EventSchema = new mongoose.Schema({
 });
 const Event = mongoose.model('Event', EventSchema);
 
-// ===== ROUTES =====
-// Signup
-const bcrypt = require('bcrypt');
-
+// ===== AUTH ROUTES =====
 // Signup (hash password)
 app.post('/signup', async (req, res) => {
   try {
@@ -100,25 +99,26 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
+// ===== EVENT ROUTES =====
+// Create event
 app.post('/api/events', upload.single('poster'), async (req, res) => {
   try {
     const {
       eventName, description, type, mode, category, startDate, endDate, language,
       organizerName, organizerEmail, contactNumber, ticketType, attendeeLimit,
-      registrationDeadline, venueName, venueAddress, googleMapLink, paymentMethod,
-      beneficiaryName, accountNumber, bankName, ifsc, upiId, paypalEmail
+      registrationDeadline, venueName, venueAddress, city,  // ✅ Add city here
+      googleMapLink, paymentMethod, beneficiaryName, accountNumber, bankName,
+      ifsc, upiId, paypalEmail
     } = req.body;
 
     const posterPath = req.file ? `/uploads/${req.file.filename}` : null;
 
-
     const newEvent = new Event({
       eventName, description, type, mode, category, startDate, endDate, language,
       organizerName, organizerEmail, contactNumber, ticketType, attendeeLimit,
-      registrationDeadline, venueName, venueAddress, googleMapLink, paymentMethod,
-      beneficiaryName, accountNumber, bankName, ifsc, upiId, paypalEmail,
-      posterPath
+      registrationDeadline, venueName, venueAddress, city,  // ✅ Save city
+      googleMapLink, paymentMethod, beneficiaryName, accountNumber, bankName,
+      ifsc, upiId, paypalEmail, posterPath
     });
 
     await newEvent.save();
@@ -133,7 +133,7 @@ app.post('/api/events', upload.single('poster'), async (req, res) => {
 // Get all events
 app.get('/api/events', async (req, res) => {
   try {
-    const events = await Event.find(); // Assuming Event is your Mongoose model
+    const events = await Event.find();
     res.json(events);
   } catch (error) {
     console.error('Error fetching events:', error);
@@ -141,9 +141,45 @@ app.get('/api/events', async (req, res) => {
   }
 });
 
-// ===== START SERVER =====
-app.listen(5000, () => {
-  console.log('Server running on http://localhost:5000');
+
+
+
+// Search route: GET /api/search?query=...&city=...
+app.get('/api/search', async (req, res) => {
+  const { query = '', city = '' } = req.query;
+
+  console.log('[SEARCH API] query:', query, 'city:', city); // ✅ Debug log
+
+  const filters = [];
+
+  if (query.trim() !== '') {
+    const regex = new RegExp(query, 'i');
+    filters.push({
+      $or: [
+        { eventName: regex },
+        { type: regex },
+        { category: regex },
+        { description: regex }
+      ]
+    });
+  }
+
+  if (city && city !== 'City') {
+    filters.push({
+      city: { $regex: new RegExp(city, 'i') }
+    });
+  }
+
+  try {
+    const queryObject = filters.length ? { $and: filters } : {};
+    console.log('[SEARCH API] MongoDB Query:', JSON.stringify(queryObject)); // ✅ Debug log
+
+    const events = await Event.find(queryObject);
+    res.json(events);
+  } catch (err) {
+    console.error('Search route error:', err);  // ✅ Will show stack trace
+    res.status(500).json({ error: 'Server error while searching events.' });
+  }
 });
 
 
@@ -155,18 +191,13 @@ app.listen(5000, () => {
 
 
 
-
-
-
-// app.use(cors());
-// app.use(express.json());
-
+// ===== EMAIL ROUTES =====
 // MailHog (localhost:1025) SMTP configuration
 const transporter = nodemailer.createTransport({
   host: 'localhost',
   port: 1025,
-  secure: false, // No SSL
-  auth: null     // No authentication for MailHog
+  secure: false,
+  auth: null
 });
 
 // Root route
@@ -193,8 +224,8 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-// Start server
-const PORT = 3000;
+// ===== START SERVER =====
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("Server running on http://localhost:${PORT}");
+  console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -1,0 +1,12 @@
+.event-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-item {
+  background: #f9f9f9;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px #ccc;
+}

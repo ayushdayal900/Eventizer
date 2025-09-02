@@ -20,7 +20,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AllEvents from './pages/AllEvents';
 import Meeting from './meeting.js'; // ✅ Make sure it's imported once
 // import ZoomMeeting from './pages/ZoomMeeting'; // ✅ Make sure it's imported once
-
+import SearchResults from './pages/SearchResults.js';
 import './App.css';
 
 function App() {
@@ -58,6 +58,7 @@ function App() {
             <Route path="/events" element={<AllEvents />} />
             <Route path="/recorded-videos" element={<RecordedVideos />} />
             {/* <Route path="/zoom" element={<ZoomMeeting />} />  */}
+            <Route path="/search" element={<SearchResults />} />
             <Route path="/meeting"  element={<Meeting payload={payload}/>}/>
           </Routes>
         </div>

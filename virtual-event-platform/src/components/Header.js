@@ -5,11 +5,18 @@ import logo from '../logo.png';
 
 function Header() {
   const [city, setCity] = useState('City');
+  const [searchText, setSearchText] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleSearch = () => {
+    if (searchText.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchText)}&city=${encodeURIComponent(city)}`);
+    }
   };
 
   return (
@@ -20,13 +27,18 @@ function Header() {
             <img src={logo} alt="BookMyEvent Logo" className="logo" />
           </Link>
         </div>
-        
+
         <div className="search-container">
           <input 
             type="text" 
             className="search-input" 
             placeholder="Search for Webinars, Conferences and Meetups" 
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
+          <button onClick={handleSearch}>🔍</button>
+
           <select 
             className="city-select" 
             value={city} 
@@ -40,7 +52,7 @@ function Header() {
             <option value="Chennai">Chennai</option>
           </select>
         </div>
-        
+
         <div className="auth-buttons">
           <button 
             className="auth-button" 
@@ -52,23 +64,17 @@ function Header() {
             className="auth-button" 
             onClick={() => navigate('/myevents')}
           >
-            {/* Login
-          </button>
-          <button 
-            className="auth-button" 
-            onClick={() => navigate('/myevents')}
-          > */}
             My Events
           </button>
         </div>
-        
+
         <div className="hamburger-menu" onClick={toggleMobileMenu}>
           <div className="hamburger-line"></div>
           <div className="hamburger-line"></div>
           <div className="hamburger-line"></div>
         </div>
       </div>
-      
+
       <nav className="main-nav">
         <div className="nav-container">
           <ul className="primary-nav">

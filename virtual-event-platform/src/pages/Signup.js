@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './PagesStyles.css';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function Signup() {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -35,9 +41,12 @@ function Signup() {
         },
         body: JSON.stringify(formData),
       });
-  
+      
+      
+
       if (response.ok) {
         alert("Account created successfully!");
+
         setFormData({
           fullName: '',
           email: '',
@@ -46,6 +55,8 @@ function Signup() {
           phoneNumber: '',
           agreeTerms: false
         });
+
+        navigate('/login');
       } else {
         const err = await response.json();
         alert(`Signup failed: ${err.error}`);
