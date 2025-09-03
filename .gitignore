@@ -1,1 +1,10 @@
 node_modules
+
+# Ignore videos and archives
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.rar
+*.7z
